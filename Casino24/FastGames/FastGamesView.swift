@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct FastGamesView: View {
-    @StateObject var fastGamesModel =  FastGamesViewModel()
     @Environment(\.presentationMode) var presentationMode
     @State  var coin = UserDefaultsManager.shared.coins
     @State var gam1 = false
@@ -70,7 +69,7 @@ struct FastGamesView: View {
                         .cornerRadius(12)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top)
+                .padding(.top, UIScreen.main.bounds.width > 700 ? 50 : 15)
                 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 20) {

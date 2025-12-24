@@ -45,7 +45,7 @@ struct JokView: View {
                                 .offset(y: 1)
                         }
                         
-                        Text("Fish Slots")
+                        Text("Joker Slots")
                             .font(.custom("PaytoneOne-Regular", size: 22))
                             .foregroundStyle(.white)
                     }

@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct LoadingView: View {
+    @ObservedObject private var soundManager = SoundManager.shared
+    @State var isMain = false
+    
     var body: some View {
         ZStack {
             Color.black
@@ -30,6 +33,14 @@ struct LoadingView: View {
                     .scaleEffect(1.5)
             }
             .padding(.vertical, 110)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isMain = true
+            }
+        }
+        .fullScreenCover(isPresented: $isMain) {
+            MainView()
         }
     }
 }

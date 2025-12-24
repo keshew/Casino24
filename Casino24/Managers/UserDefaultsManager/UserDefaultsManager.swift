@@ -98,7 +98,47 @@ class UserDefaultsManager: ObservableObject {
         didSet { defaults.set(goldSlotsWins, forKey: "goldSlotsWins") }
     }
     
-    // Трекеры для achievements и missions
+    @Published var achievementsData: [String: Int] = [:] {
+        didSet {
+            defaults.set(try? JSONEncoder().encode(achievementsData), forKey: "achievementsData")
+            checkAchievementsCompletion()
+        }
+    }
+
+    private func checkAchievementsCompletion() {
+        let achievementConfigs: [(key: String, goal: Int, reward: Int)] = [
+            ("fastGamePlays", 1000, 800),
+            ("singleSpinWin", 5000, 600),
+            ("totalCoinsWon", 30000, 500),
+            ("slotSpins", 100, 200)
+        ]
+        
+        for config in achievementConfigs {
+            if achievementsData[config.key, default: 0] >= config.goal &&
+               !defaults.bool(forKey: "achievement_\(config.key)_claimed") {
+                defaults.set(true, forKey: "achievement_\(config.key)_claimed")
+                addCoins(config.reward)
+                print("🎉 Achievement \(config.key) completed! +\(config.reward) coins")
+            }
+        }
+    }
+    
+    func incrementAchievement(_ key: String, by amount: Int = 1) {
+        achievementsData[key, default: 0] += amount
+        objectWillChange.send()
+    }
+
+    func getAchievementProgress(_ key: String) -> Int {
+        achievementsData[key, default: 0]
+    }
+    
+    func loadAchievementsData() {
+        if let data = defaults.data(forKey: "achievementsData"),
+           let decoded = try? JSONDecoder().decode([String: Int].self, from: data) {
+            achievementsData = decoded
+        }
+    }
+    
     @Published var totalWins: Int = 0 {
         didSet { defaults.set(totalWins, forKey: "totalWins") }
     }
@@ -109,6 +149,7 @@ class UserDefaultsManager: ObservableObject {
     
     private init() {
         loadAllData()
+        loadAchievementsData()
     }
     
     private func loadAllData() {

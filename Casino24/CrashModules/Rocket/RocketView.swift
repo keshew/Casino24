@@ -316,7 +316,7 @@ struct RocketView: View {
         guard viewModel.bet <= viewModel.coin else {
             return
         }
-        
+        UserDefaultsManager.shared.incrementAchievement("fastGamePlays")
         rotationAngle = 0
         isPlaying = true
         isFalling = false
@@ -371,6 +371,8 @@ struct RocketView: View {
         viewModel.multiplierTextColor = .green
         let winAmount = Int(CGFloat(viewModel.bet) * displayedMultiplier)
         viewModel.coin += winAmount
+        UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: winAmount)
+        UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: winAmount)
         UserDefaultsManager.shared.addCoins(winAmount)
         isPlaying = false
         

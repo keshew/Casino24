@@ -59,6 +59,7 @@ class ZeusViewModel: ObservableObject {
     }
     
     func spin() {
+        UserDefaultsManager.shared.incrementAchievement("slotSpins")
         UserDefaultsManager.shared.removeCoins(bet)
         coin =  UserDefaultsManager.shared.coins
         isSpinning = true
@@ -121,6 +122,8 @@ class ZeusViewModel: ObservableObject {
         
         if totalWin != 0 {
             win = totalWin
+            UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: totalWin)
+            UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: totalWin)
             isWin = true
             UserDefaultsManager.shared.addCoins(totalWin)
             coin = UserDefaultsManager.shared.coins

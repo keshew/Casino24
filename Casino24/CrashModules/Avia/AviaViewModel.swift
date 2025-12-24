@@ -16,6 +16,7 @@ class AviaViewModel: ObservableObject {
      func startGame() {
          guard !isPlaying else { return }
          guard bet <= coin, bet >= 50 else { return }
+         UserDefaultsManager.shared.incrementAchievement("fastGamePlays")
          soundManager.playWrong()
          isPlaying = true
          reward = 0
@@ -62,6 +63,8 @@ class AviaViewModel: ObservableObject {
          stopRewardIncrement()
          UserDefaultsManager.shared.addCoins(reward)
          coin = UserDefaultsManager.shared.coins
+         UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: reward)
+         UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: reward)
          reward = 0
          isPlaying = false
          resetPlanePosition()

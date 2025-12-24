@@ -52,6 +52,7 @@ class AztecViewModel: ObservableObject {
     }
     
     func spin() {
+        UserDefaultsManager.shared.incrementAchievement("slotSpins") 
         UserDefaultsManager.shared.removeCoins(bet)
         coin =  UserDefaultsManager.shared.coins
         isSpinning = true
@@ -115,6 +116,8 @@ class AztecViewModel: ObservableObject {
         if totalWin != 0 {
             win = totalWin
             isWin = true
+            UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: totalWin)
+            UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: totalWin)
             UserDefaultsManager.shared.addCoins(totalWin)
             coin = UserDefaultsManager.shared.coins
         }

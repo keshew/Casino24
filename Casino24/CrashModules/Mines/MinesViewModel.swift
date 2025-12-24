@@ -50,7 +50,7 @@ class MinesViewModel: ObservableObject {
     
     func startGame() {
         guard !gameStarted, bet <= coin else { return }
-        
+        UserDefaultsManager.shared.incrementAchievement("fastGamePlays")
         UserDefaultsManager.shared.removeCoins(bet)
         coin = UserDefaultsManager.shared.coins
         
@@ -69,7 +69,8 @@ class MinesViewModel: ObservableObject {
         coin = UserDefaultsManager.shared.coins
         
         lastWin = winAmount
-        
+        UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: winAmount)
+        UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: winAmount)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.resetGame()
         }

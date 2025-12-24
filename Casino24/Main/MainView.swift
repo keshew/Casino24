@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject var mainModel =  MainViewModel()
     @State  var coin = UserDefaultsManager.shared.coins
     @State var isPro = false
     @State var isAch = false
@@ -93,7 +92,7 @@ struct MainView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top)
+                .padding(.top, UIScreen.main.bounds.width > 700 ? 50 : 15)
                 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 30) {
@@ -264,6 +263,11 @@ struct MainView: View {
                     .padding(.top, 15)
                 }
             
+            }
+            
+            if isSet {
+                SettingsView(isShow: $isSet)
+                    .ignoresSafeArea()
             }
         }
         .onAppear {

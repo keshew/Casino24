@@ -2,10 +2,10 @@ import SwiftUI
 
 struct ChangeAvaView: View {
     @StateObject var changeAvaModel =  ChangeAvaViewModel()
-@State var selectedAv = "av1"
     @Environment(\.presentationMode) var presentationMode
     @State  var coin = UserDefaultsManager.shared.coins
-    
+    @StateObject var manager = UserDefaultsManager.shared
+    @State var img = UserDefaults.standard.string(forKey: "profileImageName")
     var body: some View {
         ZStack {
             ZStack(alignment: .top) {
@@ -30,6 +30,7 @@ struct ChangeAvaView: View {
                 HStack {
                     HStack {
                         Button(action: {
+                            NotificationCenter.default.post(name: Notification.Name("RefreshData"), object: nil)
                             presentationMode.wrappedValue.dismiss()
                         }) {
                         Image(systemName: "chevron.left")
@@ -66,11 +67,11 @@ struct ChangeAvaView: View {
                         .cornerRadius(12)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top)
+                .padding(.top, UIScreen.main.bounds.width > 700 ? 50 : 15)
                 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 70) {
-                        Image("av1")
+                        Image(img ?? "av1")
                             .resizable()
                             .frame(width: 121, height: 124)
                         .padding(.top)
@@ -78,7 +79,9 @@ struct ChangeAvaView: View {
                         LazyVGrid(columns: [GridItem(.flexible(minimum: 90, maximum: 110)), GridItem(.flexible(minimum: 90, maximum: 110)), GridItem(.flexible(minimum: 90, maximum: 110))]) {
                             ForEach(0..<9, id: \.self) { index in
                                 Button(action: {
-                                    
+                                    let newAvatar = "av\(index + 1)"
+                                    img = newAvatar
+                                    UserDefaults.standard.set(newAvatar, forKey: "profileImageName")
                                 }) {
                                     Image("av\(index+1)")
                                         .resizable()
@@ -86,8 +89,8 @@ struct ChangeAvaView: View {
                                         .frame(width: 100, height: 100)
                                         
                                 }
-                                .opacity(selectedAv == "av\(index + 1)" ? 0.3 : 1)
-                                .disabled(selectedAv == "av\(index + 1)")
+                                .opacity(img == "av\(index + 1)" ? 0.3 : 1)
+                                .disabled(img == "av\(index + 1)")
                             }
                         }
                     }

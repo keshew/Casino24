@@ -245,6 +245,8 @@ class GameSpriteKit: SKScene, SKPhysicsContactDelegate {
         
         let win = Double(game.bet) * multiplier
         game.addWin(win)
+        UserDefaultsManager.shared.incrementAchievement("totalCoinsWon", by: Int(win))
+        UserDefaultsManager.shared.incrementAchievement("singleSpinWin", by: Int(win))
         
         ball.removeFromParent()
         if let index = ballNodes.firstIndex(of: ball) {
@@ -281,6 +283,7 @@ class GameSpriteKit: SKScene, SKPhysicsContactDelegate {
     
     func launchBalls() {
         for (_, ball) in ballNodes.enumerated() {
+            UserDefaultsManager.shared.incrementAchievement("fastGamePlays")
             ball.physicsBody?.affectedByGravity = true
             
             let randomXImpulse = CGFloat.random(in: -0.01...0.01)

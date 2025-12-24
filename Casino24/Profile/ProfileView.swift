@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @StateObject var profileModel =  ProfileViewModel()
     @Environment(\.presentationMode) var presentationMode
     @State var coin = UserDefaultsManager.shared.coins
     @State var isChang = false
+    @State var img = UserDefaults.standard.string(forKey: "profileImageName")
+    
     var body: some View {
         ZStack {
             ZStack(alignment: .top) {
@@ -65,13 +66,13 @@ struct ProfileView: View {
                         .cornerRadius(12)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top)
+                .padding(.top, UIScreen.main.bounds.width > 700 ? 50 : 15)
                 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 20) {
                         VStack {
                             ZStack(alignment: .topTrailing) {
-                                Image("av1")
+                                Image(img ?? "av1")
                                     .resizable()
                                     .frame(width: 121, height: 124)
                                 
@@ -172,6 +173,11 @@ struct ProfileView: View {
                     .padding(.top, 15)
                 }
             
+            }
+        }
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: Notification.Name("RefreshData"), object: nil, queue: .main) { _ in
+                self.img = UserDefaults.standard.string(forKey: "profileImageName")
             }
         }
         .fullScreenCover(isPresented: $isChang) {
