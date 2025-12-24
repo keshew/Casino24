@@ -35,22 +35,27 @@ struct MainView: View {
                             Text("Hello!")
                                 .font(.custom("PaytoneOne-Regular", size: 24))
                                 .foregroundStyle(LinearGradient(colors: [Color(red: 238/255, green: 35/255, blue: 35/255),
+                                                                         
                                                                          Color(red: 232/255, green: 163/255, blue: 113/255)], startPoint: .leading, endPoint: .trailing))
                             
                             Text("User")
                                 .font(.custom("PaytoneOne-Regular", size: 24))
+                            
                                 .foregroundStyle(.white)
                         }
                         
                         Rectangle()
                             .fill(Color(red: 46/255, green: 41/255, blue: 41/255).opacity(0.8))
+                        
                             .overlay {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color(red: 232/255, green: 186/255, blue: 186/255), lineWidth: 1)
+                                
                                     .overlay {
                                         HStack {
                                             Image("coin")
                                                 .resizable()
+                                            
                                                 .frame(width: 24, height: 24)
                                             
                                             Text("\(coin)")
@@ -69,17 +74,24 @@ struct MainView: View {
                         Button(action: {
                             isPro = true
                         }) {
+                            
                             Image("pr")
                                 .resizable()
+                        
+                            
+                            
                                 .frame(width: 38, height: 38)
                         }
+                        
                         
                         Button(action: {
                             isAch = true
                         }) {
+                            
                             Image("ac")
                                 .resizable()
                                 .frame(width: 38, height: 38)
+                            
                         }
                         
                         Button(action: {
