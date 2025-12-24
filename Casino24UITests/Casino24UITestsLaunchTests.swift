@@ -1,10 +1,3 @@
-//
-//  Casino24UITestsLaunchTests.swift
-//  Casino24UITests
-//
-//  Created by Артём Коротков on 22.12.2025.
-//
-
 import XCTest
 
 final class Casino24UITestsLaunchTests: XCTestCase {

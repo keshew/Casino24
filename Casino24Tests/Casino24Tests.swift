@@ -1,10 +1,3 @@
-//
-//  Casino24Tests.swift
-//  Casino24Tests
-//
-//  Created by Артём Коротков on 22.12.2025.
-//
-
 import XCTest
 @testable import Casino24
 
